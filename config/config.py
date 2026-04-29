@@ -8,7 +8,7 @@
 
 # Google Drive mounted path
 INPUT_PATH = "/content/drive/MyDrive/Students/"
-OUTPUT_PATH = "/content/drive/MyDrive/processed/"
+OUTPUT_PATH = "/content/drive/MyDrive/PROCESSED_DATA_TEST5/"
 
 # ================================
 # FILE SETTINGS
@@ -47,7 +47,7 @@ LABEL_MAP = {
 # ================================
 
 # Limit number of files for testing (set to None for full run)
-MAX_FILES = 5
+MAX_FILES = None
 
 # Enable debug prints
 DEBUG = True
