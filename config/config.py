@@ -47,7 +47,7 @@ LABEL_MAP = {
 # ================================
 
 # Limit number of files for testing (set to None for full run)
-MAX_FILES = 5
+MAX_FILES = None
 
 # Enable debug prints
 DEBUG = True
