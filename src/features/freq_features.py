@@ -3,11 +3,13 @@
 """
 
 import numpy as np
-from scipy.fft import fft 
+import librosa
 
-def compute_freq_features(signal):
-    spectrum = np.abs(fft(signal)) # type: ignore
+def compute_freq_features(signal, sr):
+    centroid = librosa.feature.spectral_centroid(y=signal, sr=sr)
+    bandwidth = librosa.feature.spectral_bandwidth(y=signal, sr=sr)
+
     return {
-        "spec_max" : np.max(spectrum),
-        "spec_mean" : np.mean(spectrum)
+        "spectral_centroid": float(np.mean(centroid)),
+        "spectral_bandwidth": float(np.mean(bandwidth)),
     }

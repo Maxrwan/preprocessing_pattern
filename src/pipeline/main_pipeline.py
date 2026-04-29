@@ -79,7 +79,7 @@ def process_file(file_info):
             continue
 
         try:
-            feats = extract_features(window)
+            feats = extract_features(window, sr)
 
             # Attach metadata
             feats["label"] = label
