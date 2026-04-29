@@ -14,7 +14,7 @@ def main():
 
     # 🔥 Apply limit HERE
     if MAX_FILES is not None:
-        dataset = dataset[:5]
+        dataset = dataset[:MAX_FILES]
         print(f"Processing only {len(dataset)} files")
 
     df = process_dataset(dataset)
