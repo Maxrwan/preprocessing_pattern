@@ -17,6 +17,7 @@ from config.config import (
     DEBUG
 )
 
+print("Pipeline initialized 🖕🫦")
 
 def process_file(file_info):
     """
