@@ -83,7 +83,6 @@ def process_file(file_info):
 
             # Attach metadata
             feats["label"] = label
-            print(machine,condition, label)
             feats["machine"] = machine
             feats["condition"] = condition
 
