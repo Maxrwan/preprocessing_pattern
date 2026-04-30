@@ -115,7 +115,4 @@ def process_dataset(dataset):
         feats = process_file(file_info)
         all_data.extend(feats)
 
-    # Convert to DataFrame
-    df = pd.DataFrame(all_data)
-
-    return df
+    return all_data
