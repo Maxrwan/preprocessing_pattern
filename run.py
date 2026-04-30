@@ -31,7 +31,7 @@ def main():
     # =========================
     # 2. Create balanced batches
     # =========================
-    batches = create_balanced_batches(class_dict, files_per_class=5)
+    batches = create_balanced_batches(class_dict, files_per_class=10)
 
     print(f"[INFO] Total batches: {len(batches)}")
 
