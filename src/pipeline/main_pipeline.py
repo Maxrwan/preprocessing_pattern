@@ -32,6 +32,8 @@ def process_file(file_info):
     file_path = file_info["file_path"]
     machine = file_info["machine"]
     condition = file_info["label_name"]
+    
+    print(f"[FILE] {file_path}", flush=True)
 
     if DEBUG:
         print(f"[INFO] Processing: {file_path}")
@@ -104,7 +106,9 @@ def process_dataset(dataset):
     all_data = []
 
     for i, file_info in enumerate(dataset):
-
+        
+        print(f"Processing file {i+1}/{len(dataset)}", flush=True)
+        
         if DEBUG:
             print(f"[INFO] File {i+1}/{len(dataset)}")
 
