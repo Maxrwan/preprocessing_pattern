@@ -31,7 +31,7 @@ def main():
     # =========================
     # 2. Create balanced batches
     # =========================
-    batches = create_balanced_batches(class_dict, files_per_class=1)
+    batches = create_balanced_batches(class_dict, files_per_class=10)
 
     print(f"[INFO] Total batches: {len(batches)}")
 
@@ -68,11 +68,6 @@ def main():
         # =========================
         X = []
         y = []
-
-        #DEBUG BLOCK
-        print(type(data))
-        print(type(data[0]))
-        print(data[0])
             
         for sample in data:
             X.append(sample["mfcc"]) #type: ignore 
