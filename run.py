@@ -2,24 +2,31 @@
     ENTRY POINT 
 """
 
-import pandas as pd
 from src.pipeline.main_pipeline import process_dataset
-from src.io.dataset import get_all_files
-from config.config import INPUT_PATH, OUTPUT_PATH, MAX_FILES
+from src.io.dataset import get_classwise_files
+from src.io.batching import create_balanced_batches
+from config.config import INPUT_PATH, OUTPUT_PATH
+
+import pandas as pd
+import os
 
 def main():
-    dataset = get_all_files(INPUT_PATH)
+    class_dict = get_classwise_files(INPUT_PATH)
 
-    print(f"Total files found: {len(dataset)}")
+    batches = create_balanced_batches(class_dict, files_per_class=5)
 
-    # 🔥 Apply limit HERE
-    if MAX_FILES is not None:
-        dataset = dataset[:MAX_FILES]
-        print(f"Processing only {len(dataset)} files")
+    print(f"Total batches: {len(batches)}")
 
-    df = process_dataset(dataset)
+    for i, batch in enumerate(batches):
+        print(f"Processing batch {i+1}/{len(batches)}")
 
-    df.to_parquet(OUTPUT_PATH + "final_dataset.parquet")
+        df = process_dataset(batch)
+
+        output_file = os.path.join(
+            OUTPUT_PATH, f"batch_{i}.parquet"
+        )
+
+        df.to_parquet(output_file)
 
 if __name__ == "__main__":
     main()
