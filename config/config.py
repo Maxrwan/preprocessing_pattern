@@ -8,7 +8,7 @@
 
 # Google Drive mounted path
 INPUT_PATH = "/content/drive/MyDrive/Students/"
-OUTPUT_PATH = "/content/drive/MyDrive/PROCESSED_DATA_TEST5/"
+OUTPUT_PATH = "/content/drive/MyDrive/PROCESSED_DATA/"
 
 # ================================
 # FILE SETTINGS
