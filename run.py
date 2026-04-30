@@ -69,6 +69,11 @@ def main():
         X = []
         y = []
 
+        #DEBUG BLOCK
+        print(type(data))
+        print(type(data[0]))
+        print(data[0])
+            
         for sample in data:
             X.append(sample["mfcc"]) #type: ignore 
             y.append(sample["label"]) #type: ignore 
