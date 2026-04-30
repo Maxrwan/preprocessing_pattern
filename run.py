@@ -18,15 +18,24 @@ def main():
     print(f"Total batches: {len(batches)}")
 
     for i, batch in enumerate(batches):
+
+        output_file = os.path.join(OUTPUT_PATH, f"batch_{i}.parquet")
+
+        # 🔥 skip already processed batches
+
+        if os.path.exists(output_file):
+
+            print(f"Skipping batch {i} (already exists)")
+
+            continue
+
         print(f"Processing batch {i+1}/{len(batches)}")
 
         df = process_dataset(batch)
 
-        output_file = os.path.join(
-            OUTPUT_PATH, f"batch_{i}.parquet"
-        )
-
         df.to_parquet(output_file)
+
+        print(f"Saved: {output_file}")
 
 if __name__ == "__main__":
     main()
