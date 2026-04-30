@@ -83,12 +83,12 @@ def process_file(file_info):
         try:
             feats = extract_features(window, sr)
 
-            # Attach metadata
-            feats["label"] = label
-            feats["machine"] = machine
-            feats["condition"] = condition
-
-            all_features.append(feats)
+            all_features.append({
+                "mfcc" : feats,
+                "label": label,
+                "machine" : machine,
+                "condition" : condition
+            })
 
         except Exception as e:
             if DEBUG:

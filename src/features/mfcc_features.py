@@ -2,15 +2,23 @@
     MFCC FEATURES
 """
 
-import numpy as np
 import librosa
+import numpy as np
 
-def compute_mfcc_features(signal, sr, n_mfcc=13):
-    mfccs = librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=n_mfcc)
+def pad_mfcc(mfcc, target_length=44):
+    if mfcc.shape[1] < target_length:
+        pad_width = target_length - mfcc.shape[1]
+        mfcc = np.pad(mfcc, ((0, 0), (0, pad_width)))
+    else:
+        mfcc = mfcc[:, :target_length]
+    return mfcc
 
-    features = {}
-    for i in range(n_mfcc):
-        features[f"mfcc_{i}_mean"] = float(np.mean(mfccs[i]))
-        features[f"mfcc_{i}_std"] = float(np.std(mfccs[i]))
+def compute_mfcc(signal, sr, n_mfcc=13):
+    mfcc = librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=n_mfcc)
 
-    return features
+    mfcc = pad_mfcc(mfcc)
+
+    # normalize (important for CNN)
+    mfcc = (mfcc - np.mean(mfcc)) / (np.std(mfcc) + 1e-6)
+
+    return mfcc.astype(np.float32)
