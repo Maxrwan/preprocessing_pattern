@@ -1,5 +1,5 @@
 """ 
-    MFCC FEATURES
+    LOG MEL FEATURES
 """
 
 import librosa

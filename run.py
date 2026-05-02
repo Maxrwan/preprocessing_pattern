@@ -70,7 +70,7 @@ def main():
         y = []
             
         for sample in data:
-            X.append(sample["mfcc"]) #type: ignore 
+            X.append(sample["features"]) #type: ignore 
             y.append(sample["label"]) #type: ignore 
 
         X = np.array(X, dtype=np.float32)
@@ -95,3 +95,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

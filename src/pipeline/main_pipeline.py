@@ -84,7 +84,7 @@ def process_file(file_info):
             feats = extract_features(window, sr)
 
             all_features.append({
-                "mfcc" : feats,
+                "features" : feats,
                 "label": label,
                 "machine" : machine,
                 "condition" : condition
