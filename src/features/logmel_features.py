@@ -20,7 +20,7 @@ def pad_spectrogram(spec, target_length=48):
     return spec
 
 
-def compute_logmel(signal, sr, n_mels=128, hop_length=512):
+def compute_logmel(signal, sr, n_mels=128, hop_length=128):
     
     # 🔹 Compute mel spectrogram
     mel = librosa.feature.melspectrogram(
