@@ -8,7 +8,13 @@ import numpy as np
 def pad_spectrogram(spec, target_length=128):
     if spec.shape[1] < target_length:
         pad_width = target_length - spec.shape[1]
-        spec = np.pad(spec, ((0, 0), (0, pad_width)))
+        pad_value = spec.min()
+        spec = np.pad(
+            spec, 
+            ((0, 0), (0, pad_width)), 
+            mode = 'constant', 
+            constant_values = pad_value
+            )
     else:
         spec = spec[:, :target_length]
     return spec
