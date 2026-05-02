@@ -60,6 +60,11 @@ def main():
         # Process batch
         # =========================
         data = process_dataset(batch)
+        
+        from collections import Counter
+        
+        labels = [sample["label"] for sample in data]
+        print(f"[DEBUG] Batch {i} label distribution:", Counter(labels))
 
         if len(data) == 0:
             print(f"[WARNING] Batch {i} produced no data, skipping")

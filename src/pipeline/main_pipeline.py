@@ -10,6 +10,10 @@ from src.preprocessing.filtering import lowpass
 from src.preprocessing.windowing import window_signal, center_window_energy, trim_signal
 from src.features.feature_pipeline import extract_features
 
+from collections import defaultdict
+
+failure_counter = defaultdict(int)
+
 from config.config import (
     WINDOW_SIZE,
     STEP_SIZE,
@@ -84,8 +88,9 @@ def process_file(file_info):
 
         window = center_window_energy(window)
         
-        if np.mean(np.abs(window)) < 0.005:
-            continue 
+        # TEMP DISABLED FOR DEBUGGING 
+        # if np.mean(np.abs(window)) < 0.005:
+        #     continue 
         
         try:
             feats = extract_features(window, sr)
@@ -102,6 +107,9 @@ def process_file(file_info):
                 print(f"[ERROR] Feature extraction failed: {file_path} | {e}")
             continue
 
+        if len(all_features) == 0:
+            print(f"[WARNING] No features extracted: {file_path}")
+            failure_counter[(machine, condition)] += 1
     return all_features
 
 
@@ -121,5 +129,7 @@ def process_dataset(dataset):
 
         feats = process_file(file_info)
         all_data.extend(feats)
-
+    print("\n ==== Failure Summary ====")
+    for k, v in failure_counter.items():
+        print(f"{k}: {v}")
     return all_data
