@@ -20,7 +20,7 @@ def pad_spectrogram(spec, target_length=48):
     return spec
 
 
-def compute_logmel(signal, sr, n_mels=128, hop_length=128):
+def compute_logmel(signal, sr, n_mels=64, hop_length=128):
     
     # 🔹 Compute mel spectrogram
     mel = librosa.feature.melspectrogram(
@@ -34,7 +34,7 @@ def compute_logmel(signal, sr, n_mels=128, hop_length=128):
     log_mel = librosa.power_to_db(mel, ref=np.max)
 
     # 🔹 Pad / trim (same idea as before but better resolution)
-    log_mel = pad_spectrogram(log_mel, target_length=128)
+    log_mel = pad_spectrogram(log_mel, target_length=64)
     delta = librosa.feature.delta(log_mel)
     delta2 = librosa.feature.delta(log_mel, order=2)
         

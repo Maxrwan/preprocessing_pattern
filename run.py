@@ -12,6 +12,9 @@ RUN SCRIPT
 import os
 import numpy as np
 
+from collections import Counter
+
+
 from src.io.dataset import get_classwise_files
 from src.io.batching import create_balanced_batches
 from src.pipeline.main_pipeline import process_dataset
@@ -61,7 +64,6 @@ def main():
         # =========================
         data = process_dataset(batch)
         
-        from collections import Counter
         
         labels = [sample["label"] for sample in data]
         print(f"[DEBUG] Batch {i} label distribution:", Counter(labels))
@@ -80,7 +82,7 @@ def main():
             X.append(sample["features"]) #type: ignore 
             y.append(sample["label"]) #type: ignore 
 
-        X = np.array(X, dtype=np.float32)
+        X = np.array(X, dtype=np.float16)
         y = np.array(y, dtype=np.int64)
 
         print(f"[INFO] Batch shape: X={X.shape}, y={y.shape}")
@@ -88,7 +90,7 @@ def main():
         # =========================
         # Save batch
         # =========================
-        np.savez(output_file, X=X, y=y)
+        np.savez_compressed(output_file, X=X, y=y)
 
         print(f"[SAVED] {output_file}")
 

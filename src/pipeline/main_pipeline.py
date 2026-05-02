@@ -107,9 +107,9 @@ def process_file(file_info):
                 print(f"[ERROR] Feature extraction failed: {file_path} | {e}")
             continue
 
-        if len(all_features) == 0:
-            print(f"[WARNING] No features extracted: {file_path}")
-            failure_counter[(machine, condition)] += 1
+    if len(all_features) == 0:
+        print(f"[WARNING] No features extracted: {file_path}")
+        failure_counter[(machine, condition)] += 1
     return all_features
 
 
@@ -118,17 +118,16 @@ def process_dataset(dataset):
     Processes entire dataset list (from dataset.py)
     """
 
+    from multiprocessing import Pool, cpu_count
+    
+    with Pool(4) as p:
+        results = p.map(process_file, dataset)
+            
     all_data = []
-
-    for i, file_info in enumerate(dataset):
+    
+    for r in results:
+        all_data.extend(r)
         
-        print(f"Processing file {i+1}/{len(dataset)}", flush=True)
-        
-        if DEBUG:
-            print(f"[INFO] File {i+1}/{len(dataset)}")
-
-        feats = process_file(file_info)
-        all_data.extend(feats)
     print("\n ==== Failure Summary ====")
     for k, v in failure_counter.items():
         print(f"{k}: {v}")
