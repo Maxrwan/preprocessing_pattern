@@ -26,3 +26,9 @@ def center_window_energy(window):
     aligned = np.roll(window, shift)
 
     return aligned
+
+import librosa
+
+def trim_signal(signal):
+    trimmed, _ = librosa.effects.trim(signal, top_db=20)
+    return trimmed
