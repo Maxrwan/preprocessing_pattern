@@ -5,7 +5,7 @@
 import librosa
 import numpy as np
 
-def pad_spectrogram(spec, target_length=128):
+def pad_spectrogram(spec, target_length=48):
     if spec.shape[1] < target_length:
         pad_width = target_length - spec.shape[1]
         pad_value = spec.min()
