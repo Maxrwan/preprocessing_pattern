@@ -7,7 +7,7 @@ import numpy as np
 
 from src.io.loader import load_audio
 from src.preprocessing.filtering import lowpass
-from src.preprocessing.windowing import window_signal, center_window_energy
+from src.preprocessing.windowing import window_signal, center_window_energy, trim_signal
 from src.features.feature_pipeline import extract_features
 
 from config.config import (
@@ -56,6 +56,7 @@ def process_file(file_info):
     try:
         #filtered = lowpass(signal, CUTOFF_FREQ, sr) # type: ignore
         filtered = signal
+        filtered = trim_signal(filtered)
     except Exception as e:
         if DEBUG:
             print(f"[ERROR] Filtering failed: {file_path} | {e}")
