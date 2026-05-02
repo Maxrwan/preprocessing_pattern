@@ -54,7 +54,8 @@ def process_file(file_info):
     # Filtering
     # =========================
     try:
-        filtered = lowpass(signal, CUTOFF_FREQ, sr) # type: ignore
+        #filtered = lowpass(signal, CUTOFF_FREQ, sr) # type: ignore
+        filtered = signal
     except Exception as e:
         if DEBUG:
             print(f"[ERROR] Filtering failed: {file_path} | {e}")
