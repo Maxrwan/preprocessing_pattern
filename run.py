@@ -25,6 +25,8 @@ def main():
     # 1. Load dataset structure
     # =========================
     class_dict = get_classwise_files(INPUT_PATH)
+    for k, v in class_dict.items():
+        print(k, len(v))
 
     print(f"[INFO] Classes found: {len(class_dict)}")
 
