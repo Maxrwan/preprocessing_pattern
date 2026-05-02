@@ -3,10 +3,11 @@
 """
 
 import pandas as pd
+import numpy as np
 
 from src.io.loader import load_audio
 from src.preprocessing.filtering import lowpass
-from src.preprocessing.windowing import window_signal
+from src.preprocessing.windowing import window_signal, center_window_energy
 from src.features.feature_pipeline import extract_features
 
 from config.config import (
@@ -80,6 +81,11 @@ def process_file(file_info):
         if len(window) < WINDOW_SIZE:
             continue
 
+        window = center_window_energy(window)
+        
+        if np.mean(np.abs(window)) < 0.005:
+            continue 
+        
         try:
             feats = extract_features(window, sr)
 
