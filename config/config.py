@@ -20,8 +20,8 @@ FILE_EXTENSION = ".wav"
 # WINDOWING PARAMETERS
 # ================================
 
-WINDOW_SIZE = 22050
-STEP_SIZE = 11025  # 50% overlap
+WINDOW_SIZE = 8192
+STEP_SIZE = 4096  # 50% overlap
 
 # ================================
 # FILTER SETTINGS
