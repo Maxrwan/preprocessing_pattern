@@ -27,7 +27,7 @@ STEP_SIZE = 11025  # 50% overlap
 # FILTER SETTINGS
 # ================================
 
-CUTOFF_FREQ = None  # Hz (low-pass filter)
+CUTOFF_FREQ = 8000  # Hz (low-pass filter)
 
 # ================================
 # LABEL MAPPING (Machine + Condition)
