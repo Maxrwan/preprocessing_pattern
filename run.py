@@ -52,19 +52,21 @@ def main():
     
     existing_batches = len([f for f in os.listdir(OUTPUT_PATH) if f.endswith(".npz")])
     
+    batch_counter = existing_batches
+    
     for i, batch in enumerate(batches):
         # 🔥 Resume capability NEW
         if i < existing_batches:
             print(f"[SKIP] Batch {i+1} already processed")
             continue
         
-        output_file = os.path.join(OUTPUT_PATH, f"batch_{existing_batches + i}.npz")
+        output_file = os.path.join(OUTPUT_PATH, f"batch_{batch_counter}.npz")
 
         if os.path.exists(output_file):
             print(f"[SKIP] {output_file} already exists")
             continue
         
-        print(f"\n📦 Processing batch {i+1}/{len(batches)}")
+        print(f"\n📦 Processing batch {batch_counter}/{len(batches)}")
         print(f"[INFO] Files in batch: {len(batch)}")
 
         # =========================
@@ -107,6 +109,8 @@ def main():
         np.savez_compressed(output_file, X=X, y=y, file_paths = file_paths)
 
         print(f"[SAVED] {output_file}")
+        
+        batch_counter += 1
 
         # =========================
         # Free memory
