@@ -34,8 +34,9 @@ def main():
     print(f"[INFO] Classes found: {len(class_dict)}")
 
     # =========================
-    # 2. Create balanced batches
+    # 2. Create batches
     # =========================
+    
     batches = create_batches(class_dict)
 
     print(f"[INFO] Total batches: {len(batches)}")
@@ -53,6 +54,10 @@ def main():
     
     for i, batch in enumerate(batches):
         # 🔥 Resume capability NEW
+        if i < existing_batches:
+            print(f"[SKIP] Batch {i+1} already processed")
+            continue
+        
         output_file = os.path.join(OUTPUT_PATH, f"batch_{existing_batches + i}.npz")
 
         if os.path.exists(output_file):
@@ -81,9 +86,8 @@ def main():
         X = []
         y = []
             
-        for sample in data:
-            X.append(sample["features"]) #type: ignore 
-            y.append(sample["label"]) #type: ignore 
+        X = np.stack(sample["features"] for sample in data) #type: ignore 
+        y = np.stack(sample["label"] for sample in data) #type: ignore 
 
         X = np.array(X, dtype=np.float16)
         y = np.array(y, dtype=np.int64)

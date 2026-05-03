@@ -7,7 +7,7 @@ import numpy as np
 
 def load_audio(file_path: str):
     try:
-        signal, sr = librosa.load(file_path, sr=None)
+        signal, sr = librosa.load(file_path, sr=22050, mono = True, res_type = "kaiser_fast")
 
         if signal is None or len(signal) == 0:
             raise ValueError("Empty signal")

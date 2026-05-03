@@ -38,8 +38,6 @@ def process_file(file_info):
     machine = file_info["machine"]
     condition = file_info["label_name"]
     
-    print(f"[FILE] {file_path}", flush=True)
-
     if DEBUG:
         print(f"[INFO] Processing: {file_path}")
 
@@ -119,9 +117,10 @@ def process_dataset(dataset):
     """
 
     from multiprocessing import Pool, cpu_count
+    from tqdm import tqdm 
     
     with Pool(4) as p:
-        results = p.map(process_file, dataset)
+        results = list(tqdm(p.imap(process_file, dataset), total = len(dataset)))
             
     all_data = []
     
