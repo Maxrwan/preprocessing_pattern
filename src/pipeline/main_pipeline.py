@@ -120,7 +120,7 @@ def process_dataset(dataset):
     from tqdm import tqdm 
     
     with Pool(4) as p:
-        results = list(tqdm(p.imap(process_file, dataset), total = len(dataset)))
+        results = p.map(process_file, dataset)
             
     all_data = []
     
