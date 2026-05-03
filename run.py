@@ -16,7 +16,7 @@ from collections import Counter
 
 
 from src.io.dataset import get_classwise_files
-from src.io.batching import create_balanced_batches
+from src.io.batching import create_balanced_batches, create_batches
 from src.pipeline.main_pipeline import process_dataset
 from config.config import INPUT_PATH, OUTPUT_PATH
 
@@ -36,7 +36,7 @@ def main():
     # =========================
     # 2. Create balanced batches
     # =========================
-    batches = create_balanced_batches(class_dict, files_per_class=10)
+    batches = create_batches(class_dict)
 
     print(f"[INFO] Total batches: {len(batches)}")
 
@@ -48,14 +48,17 @@ def main():
     # =========================
     # 4. Process each batch
     # =========================
+    
+    existing_batches = len([f for f in os.listdir(OUTPUT_PATH) if f.endswith(".npz")])
+    
     for i, batch in enumerate(batches):
-        output_file = os.path.join(OUTPUT_PATH, f"batch_{i}.npz")
+        # 🔥 Resume capability NEW
+        output_file = os.path.join(OUTPUT_PATH, f"batch_{existing_batches + i}.npz")
 
-        # 🔥 Resume capability
         if os.path.exists(output_file):
-            print(f"[SKIP] Batch {i} already exists")
+            print(f"[SKIP] {output_file} already exists")
             continue
-
+        
         print(f"\n📦 Processing batch {i+1}/{len(batches)}")
         print(f"[INFO] Files in batch: {len(batch)}")
 
@@ -90,7 +93,10 @@ def main():
         # =========================
         # Save batch
         # =========================
-        np.savez_compressed(output_file, X=X, y=y)
+        
+        file_paths = [item["file_path"] for item in batch]
+        
+        np.savez_compressed(output_file, X=X, y=y, file_paths = file_paths)
 
         print(f"[SAVED] {output_file}")
 

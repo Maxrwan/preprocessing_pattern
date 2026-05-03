@@ -3,6 +3,88 @@
 """
 import random
 
+"""
+    BATCHING FILE (FINAL VERSION - FULL DATA, FIXED SIZE)
+"""
+
+import random
+
+
+def create_batches(class_dict, batch_size=60, shuffle=True):
+    """
+    Creates batches using ALL files, with fixed batch size.
+    No class balancing.
+
+    Args:
+        class_dict (dict):
+            {(machine, condition): [file_info, ...]}
+
+        batch_size (int):
+            Number of files per batch (e.g., 60)
+
+        shuffle (bool):
+            Shuffle before batching
+
+    Returns:
+        List of batches
+    """
+
+    # =========================
+    # 1. Flatten dataset
+    # =========================
+    all_files = []
+
+    for key, files in class_dict.items():
+        all_files.extend(files)
+
+    print(f"[INFO] Total files: {len(all_files)}")
+
+    # =========================
+    # 2. Shuffle
+    # =========================
+    if shuffle:
+        random.shuffle(all_files)
+
+    # =========================
+    # 3. Create batches
+    # =========================
+    batches = []
+
+    for i in range(0, len(all_files), batch_size):
+        batch = all_files[i:i + batch_size]
+
+        # optional: skip tiny last batch
+        if len(batch) < batch_size:
+            print(f"[INFO] Skipping last small batch ({len(batch)} files)")
+            break
+
+        batches.append(batch)
+
+    print(f"[INFO] Total batches: {len(batches)}")
+
+    return batches
+
+
+def inspect_class_distribution(class_dict):
+    print("\n[INFO] Class distribution:")
+    for key, files in class_dict.items():
+        machine, condition = key
+        print(f"{machine} - {condition}: {len(files)} files")
+
+
+def inspect_batch(batch):
+    from collections import Counter
+
+    counter = Counter()
+
+    for item in batch:
+        key = (item["machine"], item["label_name"])
+        counter[key] += 1
+
+    print("\n[INFO] Batch distribution:")
+    for key, count in counter.items():
+        print(f"{key}: {count}")
+
 
 def create_balanced_batches(class_dict, files_per_class=5, shuffle=True):
     """
@@ -78,31 +160,3 @@ def create_balanced_batches(class_dict, files_per_class=5, shuffle=True):
 
     return batches
 
-
-def inspect_class_distribution(class_dict):
-    """
-    Utility function to print number of files per class
-    """
-
-    print("\n[INFO] Class distribution:")
-    for key, files in class_dict.items():
-        machine, condition = key
-        print(f"{machine} - {condition}: {len(files)} files")
-
-
-def inspect_batch(batch):
-    """
-    Debug utility to check class balance inside a batch
-    """
-
-    from collections import Counter
-
-    counter = Counter()
-
-    for item in batch:
-        key = (item["machine"], item["label_name"])
-        counter[key] += 1
-
-    print("\n[INFO] Batch distribution:")
-    for key, count in counter.items():
-        print(f"{key}: {count}")
