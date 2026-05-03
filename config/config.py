@@ -7,7 +7,7 @@
 # ================================
 
 # Google Drive mounted path
-INPUT_PATH = "/content/drive/MyDrive/Students/"
+INPUT_PATH = "/content/data"
 OUTPUT_PATH = "/content/drive/MyDrive/PROCESSED_DATA_NO_FILTER/"
 
 # ================================

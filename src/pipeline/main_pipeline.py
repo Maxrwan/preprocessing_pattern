@@ -79,7 +79,7 @@ def process_file(file_info):
     # =========================
     all_features = []
 
-    MAX_WINDOWS = 30
+    MAX_WINDOWS = 25
     
     for i, window in enumerate(window_signal(filtered, WINDOW_SIZE, STEP_SIZE)):
 
@@ -93,8 +93,8 @@ def process_file(file_info):
         window = center_window_energy(window)
         
         # TEMP DISABLED FOR DEBUGGING 
-        # if np.mean(np.abs(window)) < 0.005:
-        #     continue 
+        if np.mean(np.abs(window)) < 0.005:
+             continue 
         
         try:
             feats = extract_features(window, sr)
@@ -125,8 +125,8 @@ def process_dataset(dataset):
     from multiprocessing import Pool, cpu_count
     from tqdm import tqdm 
     
-    with Pool(4) as p:
-        results = list(tqdm(p.imap(process_file, dataset)))
+    with Pool(4, maxtasksperchild = 50) as p:
+        results = list(tqdm(p.imap(process_file, dataset, chunksize = 4)))
             
     all_data = []
     
