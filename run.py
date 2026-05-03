@@ -86,8 +86,12 @@ def main():
         X = []
         y = []
             
-        X = np.stack(sample["features"] for sample in data) #type: ignore 
-        y = np.stack(sample["label"] for sample in data) #type: ignore 
+        if len(data) == 0:
+            print(f"[WARNING] Batch {i} produced no data, skipping")
+            continue
+            
+        X = np.stack([sample["features"] for sample in data]) #type: ignore 
+        y = np.stack([sample["label"] for sample in data]) #type: ignore 
 
         X = np.array(X, dtype=np.float16)
         y = np.array(y, dtype=np.int64)

@@ -50,4 +50,4 @@ LABEL_MAP = {
 MAX_FILES = 60
 
 # Enable debug prints
-DEBUG = True
+DEBUG = False
