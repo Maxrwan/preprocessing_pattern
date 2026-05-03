@@ -79,8 +79,13 @@ def process_file(file_info):
     # =========================
     all_features = []
 
-    for window in window_signal(filtered, WINDOW_SIZE, STEP_SIZE):
+    MAX_WINDOWS = 30
+    
+    for i, window in enumerate(window_signal(filtered, WINDOW_SIZE, STEP_SIZE)):
 
+        if i >= MAX_WINDOWS:
+            break
+        
         # Skip too-small windows
         if len(window) < WINDOW_SIZE:
             continue
