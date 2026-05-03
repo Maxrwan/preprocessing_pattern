@@ -37,7 +37,8 @@ def process_file(file_info):
     file_path = file_info["file_path"]
     machine = file_info["machine"]
     condition = file_info["label_name"]
-    
+
+        
     if DEBUG:
         print(f"[INFO] Processing: {file_path}")
 
@@ -93,8 +94,8 @@ def process_file(file_info):
         window = center_window_energy(window)
         
         # TEMP DISABLED FOR DEBUGGING 
-        if np.mean(np.abs(window)) < 0.005:
-             continue 
+        #if np.mean(np.abs(window)) < 0.005:
+         #    continue 
         
         try:
             feats = extract_features(window, sr)
